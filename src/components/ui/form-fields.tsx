@@ -29,14 +29,14 @@ export const FormCheckboxField = <
   name,
   label,
   description,
-  showErrorMessage = true,
+  hideErrorMessage = false,
   ...props
 }: {
   control: Control<TFieldValues>
   name: TName
   label?: string
   description?: string
-  showErrorMessage?: boolean
+  hideErrorMessage?: boolean
 } & React.ComponentProps<typeof CheckboxPrimitive.Root>) => {
   return (
     <FormField
@@ -57,7 +57,7 @@ export const FormCheckboxField = <
               {description && <FormDescription>{description}</FormDescription>}
             </div>
           </div>
-          {showErrorMessage && <FormMessage />}
+          {!hideErrorMessage && <FormMessage />}
         </FormItem>
       )}
     />
@@ -72,14 +72,14 @@ export const FormInputField = <
   name,
   label,
   description,
-  showErrorMessage = true,
+  hideErrorMessage = false,
   ...props
 }: {
   control: Control<TFieldValues>
   name: TName
   label?: string
   description?: string
-  showErrorMessage?: boolean
+  hideErrorMessage?: boolean
 } & React.ComponentProps<'input'>) => {
   return (
     <FormField
@@ -95,7 +95,7 @@ export const FormInputField = <
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
-          {showErrorMessage && <FormMessage />}
+          {!hideErrorMessage && <FormMessage />}
         </FormItem>
       )}
     />
@@ -115,7 +115,7 @@ export const FormSelectField = <
   name,
   label,
   description,
-  showErrorMessage = true,
+  hideErrorMessage = false,
   ...props
 }: {
   items: TItem[]
@@ -126,7 +126,7 @@ export const FormSelectField = <
   name: TName
   label?: string
   description?: string
-  showErrorMessage?: boolean
+  hideErrorMessage?: boolean
 } & React.ComponentProps<typeof SelectPrimitive.Root>) => {
   return (
     <FormField
@@ -135,32 +135,32 @@ export const FormSelectField = <
       render={({ field }) => (
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
-          <FormControl>
-            <Select
-              onValueChange={field.onChange}
-              {...props}
-            >
+          <Select
+            onValueChange={field.onChange}
+            {...props}
+          >
+            <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
-              <SelectContent>
-                {items.map(item => {
-                  const key = keyExtractor(item)
+            </FormControl>
+            <SelectContent>
+              {items.map(item => {
+                const key = keyExtractor(item)
 
-                  return (
-                    <SelectItem
-                      key={key}
-                      value={key.toString()}
-                    >
-                      {labelExtractor ? labelExtractor(item) : key}
-                    </SelectItem>
-                  )
-                })}
-              </SelectContent>
-            </Select>
-          </FormControl>
+                return (
+                  <SelectItem
+                    key={key}
+                    value={key.toString()}
+                  >
+                    {labelExtractor ? labelExtractor(item) : key}
+                  </SelectItem>
+                )
+              })}
+            </SelectContent>
+          </Select>
           {description && <FormDescription>{description}</FormDescription>}
-          {showErrorMessage && <FormMessage />}
+          {!hideErrorMessage && <FormMessage />}
         </FormItem>
       )}
     />
