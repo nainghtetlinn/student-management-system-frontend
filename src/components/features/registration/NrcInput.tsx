@@ -1,33 +1,40 @@
 import { nrcStates, nrcTownships, nrcTypes } from '@/assets/NRC_Data.min.json'
 
-import { FormItem, FormLabel } from '@/components/ui/form'
 import { FormInputField, FormSelectField } from '@/components/ui/form-fields'
+import { Label } from '@radix-ui/react-label'
 
 import { type NrcTownship } from '@/types/nrc'
 import { useEffect, useMemo } from 'react'
 import {
+  useFormContext,
+  type Control,
   type FieldPath,
   type FieldValues,
-  type UseFormReturn,
 } from 'react-hook-form'
 
 export const NrcInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  form,
+  control,
   stateCodeName,
   townshipCodeName,
   nrcTypeName,
   nrcNumberName,
 }: {
-  form: UseFormReturn<TFieldValues>
+  control: Control<TFieldValues>
   stateCodeName: TName
   townshipCodeName: TName
   nrcTypeName: TName
   nrcNumberName: TName
 }) => {
+  const form = useFormContext()
+
   const watchedStateCode = form.watch(stateCodeName)
+  const stateCodeField = form.getFieldState(stateCodeName, form.formState)
+  const townshipCodeField = form.getFieldState(townshipCodeName, form.formState)
+  const nrcTypeField = form.getFieldState(nrcTypeName, form.formState)
+  const nrcNumberField = form.getFieldState(nrcNumberName, form.formState)
 
   const uniqueTownships = useMemo(() => {
     const seen = new Set()
@@ -50,21 +57,33 @@ export const NrcInput = <
   }, [watchedStateCode])
 
   return (
-    <FormItem>
-      <FormLabel>NRC</FormLabel>
+    <div className='grid gap-2'>
+      <Label
+        data-error={
+          !!stateCodeField.error ||
+          !!townshipCodeField.error ||
+          !!nrcTypeField.error ||
+          !!nrcNumberField.error
+        }
+        className='flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive'
+      >
+        နိုင်ငံသားစိစစ်ရေးကတ်ပြားအမှတ်
+      </Label>
 
       <div className='flex items-center gap-1'>
         <FormSelectField
-          control={form.control}
+          control={control}
           name={stateCodeName}
+          hideErrorMessage
           placeholder='State'
           items={nrcStates.filter(s => s.number.en !== '9*')}
           keyExtractor={item => item.id}
           labelExtractor={item => item.number.mm}
         />
         <FormSelectField
-          control={form.control}
+          control={control}
           name={townshipCodeName}
+          hideErrorMessage
           placeholder='Township'
           disabled={uniqueTownships.length === 0}
           items={uniqueTownships}
@@ -72,8 +91,9 @@ export const NrcInput = <
           labelExtractor={item => item.short.mm}
         />
         <FormSelectField
-          control={form.control}
+          control={control}
           name={nrcTypeName}
+          hideErrorMessage
           placeholder='NRC Type'
           items={nrcTypes}
           keyExtractor={item => item.id}
@@ -82,10 +102,11 @@ export const NrcInput = <
       </div>
 
       <FormInputField
-        control={form.control}
+        control={control}
         name={nrcNumberName}
+        hideErrorMessage
         placeholder='NRC Number'
       />
-    </FormItem>
+    </div>
   )
 }
