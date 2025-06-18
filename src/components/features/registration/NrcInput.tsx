@@ -86,7 +86,9 @@ export const NrcInput = <
           hideErrorMessage
           placeholder='Township'
           disabled={uniqueTownships.length === 0}
-          items={uniqueTownships}
+          items={uniqueTownships.sort((a, b) =>
+            a.short.mm.localeCompare(b.short.mm)
+          )}
           keyExtractor={item => item.id}
           labelExtractor={item => item.short.mm}
         />
