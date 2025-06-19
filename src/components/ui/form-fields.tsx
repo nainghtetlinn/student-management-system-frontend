@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from './form'
 import { Input } from './input'
+import { RadioGroup, RadioGroupItem } from './radio-group'
 import {
   Select,
   SelectContent,
@@ -18,8 +19,73 @@ import {
 
 import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { type Control, type FieldPath, type FieldValues } from 'react-hook-form'
+
+export const FormRadioGroupField = <
+  TItem,
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
+  items,
+  keyExtractor,
+  labelExtractor,
+  control,
+  name,
+  label,
+  description,
+  hideErrorMessage = false,
+  ...props
+}: {
+  items: TItem[]
+  keyExtractor: (item: TItem) => string | number
+  labelExtractor?: (item: TItem) => string | number
+  control: Control<TFieldValues>
+  name: TName
+  label?: string
+  description?: string
+  hideErrorMessage?: boolean
+} & React.ComponentProps<typeof RadioGroupPrimitive.Root>) => {
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          {label && <FormLabel>{label}</FormLabel>}
+          <FormControl>
+            <RadioGroup
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              className='flex flex-col'
+              {...props}
+            >
+              {items.map(item => {
+                const key = keyExtractor(item)
+                return (
+                  <FormItem
+                    key={key}
+                    className='flex items-center gap-3'
+                  >
+                    <FormControl>
+                      <RadioGroupItem value={key.toString()} />
+                    </FormControl>
+                    <FormLabel className='font-normal'>
+                      {labelExtractor ? labelExtractor(item) : key}
+                    </FormLabel>
+                  </FormItem>
+                )
+              })}
+            </RadioGroup>
+          </FormControl>
+          {description && <FormDescription>{description}</FormDescription>}
+          {!hideErrorMessage && <FormMessage />}
+        </FormItem>
+      )}
+    />
+  )
+}
 
 export const FormCheckboxField = <
   TFieldValues extends FieldValues = FieldValues,
