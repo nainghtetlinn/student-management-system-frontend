@@ -11,11 +11,15 @@ const defaultNrc = {
   nrcNumber: '',
 }
 
+const defaultDate = '' as unknown as Date
+
+const defaultNumber = '' as unknown as number
+
 export const defaultStudentRegistrationFormData: StudentRegistrationFormSchema =
   {
     name: { en: '', mm: '' },
     nrc: defaultNrc,
-    dateOfBirth: new Date(),
+    dateOfBirth: defaultDate,
     father: {
       name: { en: '', mm: '' },
       nrc: defaultNrc,
@@ -31,11 +35,11 @@ export const defaultStudentRegistrationFormData: StudentRegistrationFormSchema =
     matriculationExam: {
       rollNo: '',
       department: '',
-      year: new Date().getFullYear(),
+      year: defaultNumber,
     },
     parentAddress: '',
     parentContactNo: '',
-    isLivedWithParents: true,
+    isLivedWithParents: 'true',
     email: '',
     emergencyAddress: '',
     emergencyContactNo: '',
@@ -46,12 +50,12 @@ export const defaultStudentRegistrationFormData: StudentRegistrationFormSchema =
 export const defaultStudentDetailsFormData: StudentDetailsFormSchema = {
   name: '',
   nrc: defaultNrc,
-  dateOfBirth: new Date(),
+  dateOfBirth: defaultDate,
   rollNo: '',
   hostelAddress: '',
-  height: '' as unknown as number,
-  weight: '' as unknown as number,
-  bloodType: 'A+',
+  height: defaultNumber,
+  weight: defaultNumber,
+  bloodType: '',
   hobby: '',
   sibilings: [],
   parentAddress: '',
@@ -61,7 +65,7 @@ export const defaultStudentDetailsFormData: StudentDetailsFormSchema = {
   father: {
     name: '',
     nrc: defaultNrc,
-    age: '' as unknown as number,
+    age: defaultNumber,
     ethnicity: '',
     religion: '',
     job: '',
@@ -69,7 +73,7 @@ export const defaultStudentDetailsFormData: StudentDetailsFormSchema = {
   mother: {
     name: '',
     nrc: defaultNrc,
-    age: '' as unknown as number,
+    age: defaultNumber,
     ethnicity: '',
     religion: '',
     job: '',
@@ -89,7 +93,7 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       ethnicity: '',
       religion: '',
       placeOfBirth: '',
-      dateOfBirth: new Date(),
+      dateOfBirth: defaultDate,
     },
     father: {
       name: { en: '', mm: '' },
@@ -98,7 +102,7 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       ethnicity: '',
       religion: '',
       placeOfBirth: '',
-      dateOfBirth: new Date(),
+      dateOfBirth: defaultDate,
     },
     mother: {
       name: { en: '', mm: '' },
@@ -107,7 +111,7 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       ethnicity: '',
       religion: '',
       placeOfBirth: '',
-      dateOfBirth: new Date(),
+      dateOfBirth: defaultDate,
     },
     contactAddress: '',
     hostelAddress: '',

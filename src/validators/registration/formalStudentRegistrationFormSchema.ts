@@ -6,7 +6,7 @@ import { nrcSchema } from './nrcSchema'
 const personSchema = z.object({
   name: nameSchema,
   nrc: nrcSchema,
-  acsc: z.string().nullable(),
+  acsc: z.string(),
   ethnicity: z.string().min(1),
   religion: z.string().min(1),
   placeOfBirth: z.string().min(1),
@@ -36,7 +36,7 @@ export const formalStudentRegistrationFormSchema = z.object({
   mother: personSchema,
 
   contactAddress: z.string().min(1),
-  hostelAddress: z.string().nullable(),
+  hostelAddress: z.string(),
   currentAddress: z.string().min(1),
   parentAddress: z.string().min(1),
   contactNo: z.string().min(1),

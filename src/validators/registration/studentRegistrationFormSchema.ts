@@ -10,9 +10,9 @@ const parentSchema = z.object({
 })
 
 const matriculationExamSchema = z.object({
-  rollNo: z.string().min(1, 'Required.'),
-  department: z.string().min(1, 'Required.'),
-  year: z.coerce.number(),
+  rollNo: z.string().min(1),
+  department: z.string().min(1),
+  year: z.coerce.number().gt(0),
 })
 
 export const studentRegistrationFormSchema = z.object({
@@ -28,14 +28,16 @@ export const studentRegistrationFormSchema = z.object({
 
   parentAddress: z.string().min(1),
   parentContactNo: z.string().min(1),
-  isLivedWithParents: z.boolean(),
+  isLivedWithParents: z.string().refine(val => {
+    return ['true', 'false'].includes(val)
+  }),
 
   email: z.string().email(),
 
   emergencyAddress: z.string().min(1),
   emergencyContactNo: z.string().min(1),
 
-  hostelAddress: z.string().nullable(),
+  hostelAddress: z.string(),
 
   acknowledged: z
     .boolean()

@@ -14,7 +14,7 @@ const sibilingsSchema = z.array(
 const parentSchema = z.object({
   name: z.string().min(1),
   nrc: nrcSchema,
-  age: z.number().gt(0),
+  age: z.coerce.number().gt(0),
   ethnicity: z.string().min(1),
   religion: z.string().min(1),
   job: z.string().min(1),
@@ -25,12 +25,16 @@ export const studentDetailsFormSchema = z.object({
   nrc: nrcSchema,
   dateOfBirth: z.coerce.date(),
   rollNo: z.string().min(1),
-  hostelAddress: z.string().nullable(),
+  hostelAddress: z.string(),
 
-  height: z.number().gt(0),
-  weight: z.number().gt(0),
-  bloodType: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-  hobby: z.string().nullable(),
+  height: z.coerce.number().gt(0),
+  weight: z.coerce.number().gt(0),
+  bloodType: z.string().refine(val => {
+    if (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].includes(val))
+      return true
+    else return false
+  }, 'Invalid blood type.'),
+  hobby: z.string(),
 
   sibilings: sibilingsSchema,
   parentAddress: z.string().min(1),
@@ -41,9 +45,9 @@ export const studentDetailsFormSchema = z.object({
   father: parentSchema,
   mother: parentSchema,
 
-  cropType: z.string().nullable(),
-  assetsType: z.string().nullable(),
-  salesProductType: z.string().nullable(),
+  cropType: z.string(),
+  assetsType: z.string(),
+  salesProductType: z.string(),
 
   acknowledged: z
     .boolean()
