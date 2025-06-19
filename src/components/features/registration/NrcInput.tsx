@@ -96,7 +96,7 @@ export const NrcInput = <
           control={control}
           name={nrcTypeName}
           hideErrorMessage
-          placeholder='NRC Type'
+          placeholder='Type'
           items={nrcTypes}
           keyExtractor={item => item.id}
           labelExtractor={item => item.name.mm}
