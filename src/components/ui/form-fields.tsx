@@ -31,6 +31,7 @@ export const FormRadioGroupField = <
   items,
   keyExtractor,
   labelExtractor,
+  valueExtractor,
   control,
   name,
   label,
@@ -39,8 +40,9 @@ export const FormRadioGroupField = <
   ...props
 }: {
   items: TItem[]
-  keyExtractor: (item: TItem) => string | number
-  labelExtractor?: (item: TItem) => string | number
+  keyExtractor: (item: TItem) => string
+  labelExtractor?: (item: TItem) => string
+  valueExtractor?: (item: TItem) => string
   control: Control<TFieldValues>
   name: TName
   label?: string
@@ -56,9 +58,8 @@ export const FormRadioGroupField = <
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <RadioGroup
+              value={field.value}
               onValueChange={field.onChange}
-              defaultValue={field.value}
-              className='flex flex-col'
               {...props}
             >
               {items.map(item => {
@@ -69,7 +70,9 @@ export const FormRadioGroupField = <
                     className='flex items-center gap-3'
                   >
                     <FormControl>
-                      <RadioGroupItem value={key.toString()} />
+                      <RadioGroupItem
+                        value={valueExtractor ? valueExtractor(item) : key}
+                      />
                     </FormControl>
                     <FormLabel className='font-normal'>
                       {labelExtractor ? labelExtractor(item) : key}
@@ -176,6 +179,7 @@ export const FormSelectField = <
   items,
   keyExtractor,
   labelExtractor,
+  valueExtractor,
   placeholder,
   control,
   name,
@@ -185,8 +189,9 @@ export const FormSelectField = <
   ...props
 }: {
   items: TItem[]
-  keyExtractor: (item: TItem) => string | number
-  labelExtractor?: (item: TItem) => string | number
+  keyExtractor: (item: TItem) => string
+  labelExtractor?: (item: TItem) => string
+  valueExtractor?: (item: TItem) => string
   placeholder?: string
   control: Control<TFieldValues>
   name: TName
@@ -202,6 +207,7 @@ export const FormSelectField = <
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <Select
+            value={field.value}
             onValueChange={field.onChange}
             {...props}
           >
@@ -217,7 +223,7 @@ export const FormSelectField = <
                 return (
                   <SelectItem
                     key={key}
-                    value={key.toString()}
+                    value={valueExtractor ? valueExtractor(item) : key}
                   >
                     {labelExtractor ? labelExtractor(item) : key}
                   </SelectItem>
