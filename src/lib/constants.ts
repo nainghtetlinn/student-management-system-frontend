@@ -1,8 +1,15 @@
 import {
-  StudentRegistrationFormSchema,
   StudentDetailsFormSchema,
   FormalStudentRegistrationFormSchema,
 } from '@/types/registration'
+
+import { TCombinedStudentRegistrationSchema } from '@/validators/registration/studentRegistrationForm'
+
+const defaultNumber = '' as unknown as number
+
+const defaultDate = '' as unknown as Date
+
+const defaultName = { en: '', mm: '' }
 
 const defaultNrc = {
   stateCode: '',
@@ -11,39 +18,43 @@ const defaultNrc = {
   nrcNumber: '',
 }
 
-const defaultDate = '' as unknown as Date
+const defaultRollNo = { year: defaultNumber, major: '', no: defaultNumber }
 
-const defaultNumber = '' as unknown as number
-
-export const defaultStudentRegistrationFormData: StudentRegistrationFormSchema =
+export const defaultStudentRegistrationFormData: TCombinedStudentRegistrationSchema =
   {
-    name: { en: '', mm: '' },
-    nrc: defaultNrc,
-    dateOfBirth: defaultDate,
+    courseName: '',
+    student: {
+      name: defaultName,
+      gender: 'male',
+      nrc: defaultNrc,
+      dateOfBirth: defaultDate,
+      rollNo: defaultRollNo,
+      lastYearRollNo: defaultRollNo,
+    },
     father: {
-      name: { en: '', mm: '' },
+      name: defaultName,
       nrc: defaultNrc,
       job: '',
     },
     mother: {
-      name: { en: '', mm: '' },
+      name: defaultName,
       nrc: defaultNrc,
       job: '',
     },
-    rollNo: '',
-    lastYearRollNo: '',
     matriculationExam: {
       rollNo: '',
       department: '',
       year: defaultNumber,
     },
-    parentAddress: '',
-    parentContactNo: '',
-    isLivedWithParents: 'true',
-    email: '',
-    emergencyAddress: '',
-    emergencyContactNo: '',
-    hostelAddress: '',
+    contacts: {
+      parentAddress: '',
+      parentContactNo: '',
+      isLivedWithParents: 'true',
+      email: '',
+      emergencyAddress: '',
+      emergencyContactNo: '',
+      hostelAddress: '',
+    },
     acknowledged: false,
   }
 
@@ -87,7 +98,7 @@ export const defaultStudentDetailsFormData: StudentDetailsFormSchema = {
 export const defaultFormalStudentRegistrationFormData: FormalStudentRegistrationFormSchema =
   {
     student: {
-      name: { en: '', mm: '' },
+      name: defaultName,
       nrc: defaultNrc,
       acsc: '',
       ethnicity: '',
@@ -96,7 +107,7 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       dateOfBirth: defaultDate,
     },
     father: {
-      name: { en: '', mm: '' },
+      name: defaultName,
       nrc: defaultNrc,
       acsc: '',
       ethnicity: '',
@@ -105,7 +116,7 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       dateOfBirth: defaultDate,
     },
     mother: {
-      name: { en: '', mm: '' },
+      name: defaultName,
       nrc: defaultNrc,
       acsc: '',
       ethnicity: '',
