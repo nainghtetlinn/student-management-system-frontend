@@ -17,9 +17,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { defaultStudentRegistrationFormData } from '@/lib/constants'
-import { type StudentRegistrationFormSchema } from '@/types/registration'
-import { studentRegistrationFormSchema } from '@/validators/registration/studentRegistrationFormSchema'
-import { tabs } from './tabs'
+import {
+  combinedStudentRegistrationSchema,
+  type TCombinedStudentRegistrationSchema,
+} from '@/validators/registration/studentRegistrationForm'
+import { steps } from './steps'
 
 const tabContentVariants: Variants = {
   initial: {
@@ -37,23 +39,32 @@ const tabContentVariants: Variants = {
 }
 
 export const StudentRegisterationForm = () => {
-  const form = useForm<StudentRegistrationFormSchema>({
-    resolver: zodResolver(studentRegistrationFormSchema),
+  const form = useForm<TCombinedStudentRegistrationSchema>({
+    resolver: zodResolver(combinedStudentRegistrationSchema),
     defaultValues: defaultStudentRegistrationFormData,
   })
 
   const [active, setActive] = useState(0)
+  const currentStep = steps[active]
 
-  const handleNext = () => {
-    if (active === tabs.length - 1) return
-    setActive(prev => prev + 1)
+  const handleNext = async () => {
+    const isValid = await form.trigger(currentStep.fields)
+
+    if (!isValid) {
+      return // Stop progression if validation fails
+    }
+
+    if (active < steps.length - 1) {
+      setActive(prev => prev + 1)
+    }
   }
   const handlePrevious = () => {
-    if (active === 0) return
-    setActive(prev => prev - 1)
+    if (active > 0) {
+      setActive(prev => prev - 1)
+    }
   }
 
-  const onSubmit = (data: StudentRegistrationFormSchema) => {
+  const onSubmit = (data: TCombinedStudentRegistrationSchema) => {
     console.log(data)
   }
 
@@ -77,12 +88,12 @@ export const StudentRegisterationForm = () => {
                   duration: 0.1,
                 }}
               >
-                {tabs[active].render()}
+                {currentStep.component}
               </motion.div>
             </AnimatePresence>
           </CardContent>
           <CardFooter className='flex justify-end gap-2'>
-            {active !== 0 && (
+            {active > 0 && (
               <Button
                 type='button'
                 onClick={handlePrevious}
@@ -90,7 +101,7 @@ export const StudentRegisterationForm = () => {
                 Previous
               </Button>
             )}
-            {active !== tabs.length - 1 && (
+            {active < steps.length - 1 && (
               <Button
                 type='button'
                 onClick={handleNext}
@@ -98,7 +109,7 @@ export const StudentRegisterationForm = () => {
                 Next
               </Button>
             )}
-            {active === tabs.length - 1 && <Button>Submit</Button>}
+            {active === steps.length - 1 && <Button>Submit</Button>}
           </CardFooter>
         </Card>
       </form>
