@@ -1,9 +1,10 @@
 import {
   FormInputField,
   FormRadioGroupField,
+  FormSelectField,
 } from '@/components/ui/form-fields'
-import { NrcInput } from '../NrcInput'
 import { DobPicker } from '../DobPicker'
+import { NrcInput } from '../NrcInput'
 import { RollNoInput } from '../RollNoInput'
 
 import { useFormContext } from 'react-hook-form'
@@ -15,10 +16,21 @@ export const StudentDetails = () => {
 
   return (
     <div className='flex flex-col gap-4 min-h-[550px]'>
-      <FormInputField
+      <FormSelectField
         control={form.control}
         name='courseName'
         label='မည်သည့်ခုနှစ်သင်တန်း'
+        placeholder='အခုနှစ်သင်တန်း'
+        items={[
+          { key: 'first', label: 'ပထမနှစ်သင်တန်း' },
+          { key: 'second', label: 'ဒုတိယနှစ်သင်တန်း' },
+          { key: 'third', label: 'တတိယနှစ်သင်တန်း' },
+          { key: 'fourth', label: 'စတုတ္ထနှစ်သင်တန်း' },
+          { key: 'fifth', label: 'ပဉ္စမနှစ်သင်တန်း' },
+          { key: 'sixth', label: 'ဆဠမနှစ်သင်တန်း' },
+        ]}
+        keyExtractor={item => item.key}
+        labelExtractor={item => item.label}
       />
       <FormInputField
         control={form.control}
