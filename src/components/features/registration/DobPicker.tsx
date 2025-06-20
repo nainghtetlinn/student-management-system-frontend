@@ -22,9 +22,11 @@ export const DobPicker = <
 >({
   control,
   name,
+  hideErrorMessage = false,
 }: {
   control: Control<TFieldValues>
   name: TName
+  hideErrorMessage?: boolean
 }) => {
   return (
     <FormField
@@ -58,7 +60,7 @@ export const DobPicker = <
               />
             </PopoverContent>
           </Popover>
-          <FormMessage />
+          {!hideErrorMessage && <FormMessage />}
         </FormItem>
       )}
     />

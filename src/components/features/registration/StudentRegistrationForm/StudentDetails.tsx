@@ -65,6 +65,7 @@ export const StudentDetails = () => {
       <DobPicker
         control={form.control}
         name='student.dateOfBirth'
+        hideErrorMessage
       />
       <RollNoInput
         control={form.control}
