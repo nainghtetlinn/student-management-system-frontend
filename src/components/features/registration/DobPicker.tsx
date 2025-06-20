@@ -15,6 +15,7 @@ import {
 import { ChevronDownIcon } from 'lucide-react'
 
 import { type Control, type FieldPath, type FieldValues } from 'react-hook-form'
+import { useState } from 'react'
 
 export const DobPicker = <
   TFieldValues extends FieldValues = FieldValues,
@@ -28,6 +29,8 @@ export const DobPicker = <
   name: TName
   hideErrorMessage?: boolean
 }) => {
+  const [open, setOpen] = useState(false)
+
   return (
     <FormField
       control={control}
@@ -35,7 +38,10 @@ export const DobPicker = <
       render={({ field }) => (
         <FormItem>
           <FormLabel>မွေးသက္ကရာဇ်</FormLabel>
-          <Popover>
+          <Popover
+            open={open}
+            onOpenChange={setOpen}
+          >
             <FormControl>
               <PopoverTrigger asChild>
                 <Button
@@ -56,7 +62,11 @@ export const DobPicker = <
               <Calendar
                 mode='single'
                 captionLayout='dropdown'
-                onSelect={field.onChange}
+                selected={field.value}
+                onSelect={date => {
+                  field.onChange(date)
+                  setOpen(false)
+                }}
               />
             </PopoverContent>
           </Popover>
