@@ -4,7 +4,7 @@ import { FormInputField, FormSelectField } from '@/components/ui/form-fields'
 import { Label } from '@radix-ui/react-label'
 
 import { type NrcTownship } from '@/types/nrc'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import {
   useFormContext,
   type Control,
@@ -28,6 +28,8 @@ export const NrcInput = <
   nrcTypeName: TName
   nrcNumberName: TName
 }) => {
+  const oldRef = useRef<string>('')
+
   const form = useFormContext()
 
   const watchedStateCode = form.watch(stateCodeName)
@@ -53,7 +55,11 @@ export const NrcInput = <
   }, [watchedStateCode])
 
   useEffect(() => {
-    form.resetField(townshipCodeName)
+    if (oldRef.current && oldRef.current !== watchedStateCode) {
+      form.resetField(townshipCodeName)
+    }
+
+    oldRef.current = watchedStateCode
   }, [watchedStateCode])
 
   return (
