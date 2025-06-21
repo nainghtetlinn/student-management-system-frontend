@@ -1,8 +1,6 @@
-import {
-  StudentDetailsFormSchema,
-  FormalStudentRegistrationFormSchema,
-} from '@/types/registration'
+import { FormalStudentRegistrationFormSchema } from '@/types/registration'
 
+import { TCombinedStudentDetailsSchema } from '@/validators/registration/studentDetailsForm'
 import { TCombinedStudentRegistrationSchema } from '@/validators/registration/studentRegistrationForm'
 
 const defaultNumber = '' as unknown as number
@@ -58,21 +56,17 @@ export const defaultStudentRegistrationFormData: TCombinedStudentRegistrationSch
     acknowledged: false,
   }
 
-export const defaultStudentDetailsFormData: StudentDetailsFormSchema = {
-  name: '',
-  nrc: defaultNrc,
-  dateOfBirth: defaultDate,
-  rollNo: '',
-  hostelAddress: '',
-  height: defaultNumber,
-  weight: defaultNumber,
-  bloodType: '',
-  hobby: '',
-  sibilings: [],
-  parentAddress: '',
-  currentAddress: '',
-  emergencyAddress: '',
-  emergencyContactNo: '',
+export const defaultStudentDetailsFormData: TCombinedStudentDetailsSchema = {
+  student: {
+    name: '',
+    nrc: defaultNrc,
+    dateOfBirth: defaultDate,
+    rollNo: defaultRollNo,
+    height: '',
+    weight: '',
+    bloodType: '',
+    hobby: '',
+  },
   father: {
     name: '',
     nrc: defaultNrc,
@@ -89,9 +83,19 @@ export const defaultStudentDetailsFormData: StudentDetailsFormSchema = {
     religion: '',
     job: '',
   },
-  cropType: '',
-  assetsType: '',
-  salesProductType: '',
+  sibilings: [],
+  contacts: {
+    parentAddress: '',
+    currentAddress: '',
+    emergencyAddress: '',
+    emergencyContactNo: '',
+    hostelAddress: '',
+  },
+  specialJobs: {
+    cropType: '',
+    assetsType: '',
+    salesProductType: '',
+  },
   acknowledged: false,
 }
 
