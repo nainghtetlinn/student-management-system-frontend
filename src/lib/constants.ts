@@ -1,7 +1,6 @@
-import { FormalStudentRegistrationFormSchema } from '@/types/registration'
-
 import { TCombinedStudentDetailsSchema } from '@/validators/registration/studentDetailsForm'
 import { TCombinedStudentRegistrationSchema } from '@/validators/registration/studentRegistrationForm'
+import { TCombinedFormalStudentRegistrationSchema } from '@/validators/registration/formalStudentRegistrationForm'
 
 const defaultNumber = '' as unknown as number
 
@@ -99,7 +98,7 @@ export const defaultStudentDetailsFormData: TCombinedStudentDetailsSchema = {
   acknowledged: false,
 }
 
-export const defaultFormalStudentRegistrationFormData: FormalStudentRegistrationFormSchema =
+export const defaultFormalStudentRegistrationFormData: TCombinedFormalStudentRegistrationSchema =
   {
     student: {
       name: defaultName,
@@ -109,6 +108,7 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       religion: '',
       placeOfBirth: '',
       dateOfBirth: defaultDate,
+      hadScholarship: 'no',
     },
     father: {
       name: defaultName,
@@ -128,19 +128,19 @@ export const defaultFormalStudentRegistrationFormData: FormalStudentRegistration
       placeOfBirth: '',
       dateOfBirth: defaultDate,
     },
-    contactAddress: '',
-    hostelAddress: '',
-    currentAddress: '',
-    parentAddress: '',
-    contactNo: '',
+    contacts: {
+      hostelAddress: '',
+      currentAddress: '',
+      contactNo: '',
+      parentsAddress: '',
+      parentsContactNo: '',
+    },
     enrollments: [],
     supporter: {
       name: '',
       relationshipType: '',
       job: '',
       address: '',
-      contactNo: '',
     },
-    scholarStatus: '',
     acknowledged: false,
   }
